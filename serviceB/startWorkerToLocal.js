@@ -1,4 +1,5 @@
 var amqp = require('amqplib/callback_api');
+var fetch = require('node-fetch');
 
 amqp.connect(process.env.CLOUDAMQP_URL || 'amqp://localhost', function (
     error0,
@@ -24,9 +25,11 @@ amqp.connect(process.env.CLOUDAMQP_URL || 'amqp://localhost', function (
             queue,
             (msg) => {
                 let partes = msg.content.toString().split('/');
+                let clientId = partes[0];
+                let type = partes[1];
 
                 console.log(
-                    `Se recibió un proceso de tipo ${partes[1]} del cliente ${partes[0]}`
+                    `Se recibió un proceso de tipo ${type} del cliente ${clientId}`
                 );
 
                 setTimeout(() => {
@@ -40,10 +43,21 @@ amqp.connect(process.env.CLOUDAMQP_URL || 'amqp://localhost', function (
                         response = 'Falla';
                     }
                     console.log(
-                        `Termino un proceso de tipo ${partes[1]} para cliente ${partes[0]} con resultado: ${response}`
+                        `Termino un proceso de tipo ${type} para cliente ${clientId} con resultado: ${response}`
                     );
                     channel.ack(msg);
                     //Llama al webhook del componente A para notificar el resultado del procesamiento
+                    fetch(
+                        `http://localhost:3001/client/${clientId}/notification`,
+                        {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                type: type,
+                                result: response,
+                            }),
+                        }
+                    );
                 }, 5000);
             },
             {
