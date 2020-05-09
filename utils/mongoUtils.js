@@ -50,13 +50,45 @@ module.exports.createProcess = async (id, type, quantity) => {
             cliente: id,
             activo: true,
             tipo: type,
-            quantity: quantity,
+            cantidad: quantity,
             exitosos: 0,
             fallidos: 0,
         });
 
         return response.ops[0];
     } catch (err) {
+        throw {
+            type: 500,
+            msg: `Error en la base de datos: ${err}`,
+        };
+    }
+};
+
+module.exports.updateProcess = async (process) => {
+    try {
+        const client = new MongoClient(url, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+        await client.connect();
+
+        const db = client.db(dbName);
+        const processesCollection = db.collection('procesos');
+
+        response = await processesCollection.updateOne(
+            { activo: true, tipo: process.tipo },
+            {
+                $set: {
+                    activo: process.activo,
+                    exitosos: process.exitosos,
+                    fallidos: process.fallidos,
+                },
+            }
+        );
+
+        return 'OK';
+    } catch (err) {
+        console.log(err);
         throw {
             type: 500,
             msg: `Error en la base de datos: ${err}`,

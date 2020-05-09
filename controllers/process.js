@@ -34,3 +34,38 @@ module.exports.createProcess = async (id, type, quantity, resolve, reject) => {
         reject(err);
     }
 };
+
+module.exports.handleSubProcessCompletion = async (
+    clientId,
+    type,
+    result,
+    resolve,
+    reject
+) => {
+    try {
+        //notifica al cliente si esta conectado
+
+        // Consulta el proceso en la base de datos
+        let proceso = (await mongoUtils.getActiveProcessesByType(type))[0];
+        if (proceso) {
+            if (result === 'Exito') {
+                proceso.exitosos += 1;
+            } else {
+                proceso.fallidos += 1;
+            }
+            if (proceso.exitosos + proceso.fallidos === proceso.cantidad) {
+                proceso.activo = false;
+            }
+            mongoUtils.updateProcess(proceso);
+            //Persiste la información en la base de datos
+            resolve('buena');
+        } else {
+            reject({
+                type: 400,
+                msg: 'No exiten procesos activos de ese tipo',
+            });
+        }
+    } catch (err) {
+        reject(err);
+    }
+};
