@@ -11,15 +11,16 @@ module.exports.sendProcess = (id, type, quantity, resolve, reject) => {
                 if (error1) {
                     reject(error1);
                 }
-                var queue = 'hello';
+                var queue = 'processes';
                 var msg = `${id}/${type}`;
 
                 channel.assertQueue(queue, {
-                    durable: false,
+                    durable: true,
                 });
                 for (let i = 0; i < quantity; i++) {
-                    channel.sendToQueue(queue, Buffer.from(msg));
-                    console.log(`Sended message ${i}`);
+                    channel.sendToQueue(queue, Buffer.from(msg), {
+                        persistent: true,
+                    });
                 }
                 resolve();
             });
