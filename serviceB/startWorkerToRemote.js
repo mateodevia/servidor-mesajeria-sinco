@@ -45,7 +45,6 @@ amqp.connect(process.env.CLOUDAMQP_URL || 'amqp://localhost', function (
                     console.log(
                         `Termino un proceso de tipo ${type} para cliente ${clientId} con resultado: ${response}`
                     );
-                    channel.ack(msg);
                     //Llama al webhook del componente A para notificar el resultado del procesamiento
                     fetch(
                         `https://prueba-sinco-componente-a.herokuapp.com/client/${clientId}/notification`,
@@ -57,7 +56,14 @@ amqp.connect(process.env.CLOUDAMQP_URL || 'amqp://localhost', function (
                                 result: response,
                             }),
                         }
-                    );
+                    ).then((response) => {
+                        response.json().then((data) => {
+                            //Si el el webhook contesta bien, envía la confirmacion al servidor de mensajería
+                            if (data.msg) {
+                                channel.ack(msg);
+                            }
+                        });
+                    });
                 }, 5000);
             },
             {
