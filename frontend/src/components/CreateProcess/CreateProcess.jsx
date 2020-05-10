@@ -11,7 +11,7 @@ function CreateProcess(props) {
     let createProcess = () => {
         if (typeRef.current.value != '' && quantityRef.current.value != '') {
             setEsperando(true);
-            fetch(`/client/1018505033/process`, {
+            fetch(`/clients/${window.sessionStorage.username}/processes`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

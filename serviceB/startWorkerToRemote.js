@@ -47,7 +47,7 @@ amqp.connect(process.env.CLOUDAMQP_URL || 'amqp://localhost', function (
                     );
                     //Llama al webhook del componente A para notificar el resultado del procesamiento
                     fetch(
-                        `https://prueba-sinco-componente-a.herokuapp.com/client/${clientId}/notification`,
+                        `https://prueba-sinco-componente-a.herokuapp.com/clients/${clientId}/notifications`,
                         {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },

@@ -71,3 +71,15 @@ module.exports.handleSubProcessCompletion = async (
         reject(err);
     }
 };
+
+module.exports.getActiveProcesses = async (clientId, resolve, reject) => {
+    try {
+        //Busca en la base de datos si ya existe un proceso de ese tipo
+        let procesosActivos = await mongoUtils.getActiveProcessesByClient(
+            clientId
+        );
+        resolve(procesosActivos);
+    } catch (err) {
+        reject(err);
+    }
+};

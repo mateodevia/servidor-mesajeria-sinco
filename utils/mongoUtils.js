@@ -95,3 +95,27 @@ module.exports.updateProcess = async (process) => {
         };
     }
 };
+
+module.exports.getActiveProcessesByClient = async (clientId) => {
+    try {
+        const client = new MongoClient(url, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+        await client.connect();
+
+        const db = client.db(dbName);
+        const processesCollection = db.collection('procesos');
+
+        let result = await processesCollection.find({
+            cliente: clientId,
+            activo: true,
+        });
+        return result.toArray();
+    } catch (err) {
+        throw {
+            type: 500,
+            msg: `Error en la base de datos: ${err}`,
+        };
+    }
+};

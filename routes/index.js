@@ -3,7 +3,7 @@ const router = express.Router();
 const processController = require('../controllers/process');
 
 /* GET home page. */
-router.post('/client/:clientId/process', (req, res) => {
+router.post('/clients/:clientId/processes', (req, res) => {
     if (!req.body.type) {
         res.status(400).json({ error: 'EL parametro type hace falta' });
     } else if (!req.body.quantity) {
@@ -22,7 +22,7 @@ router.post('/client/:clientId/process', (req, res) => {
 });
 
 //Este es un webhook
-router.post('/client/:clientId/notification', (req, res) => {
+router.post('/clients/:clientId/notifications', (req, res) => {
     if (!req.body.type) {
         res.status(400).json({ error: 'EL parametro type hace falta' });
     } else if (!req.body.result) {
@@ -39,6 +39,17 @@ router.post('/client/:clientId/notification', (req, res) => {
             }
         );
     }
+});
+
+router.get('/clients/:clientId/processes', (req, res) => {
+    processController.getActiveProcesses(
+        req.params.clientId,
+        (response) => res.send(response),
+        (err) => {
+            console.log(err);
+            res.status(err.type).json({ error: err.msg });
+        }
+    );
 });
 
 module.exports = router;

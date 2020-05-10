@@ -47,7 +47,7 @@ amqp.connect(process.env.CLOUDAMQP_URL || 'amqp://localhost', function (
                     );
                     //Llama al webhook del componente A para notificar el resultado del procesamiento
                     fetch(
-                        `http://localhost:3001/client/${clientId}/notification`,
+                        `http://localhost:3001/clients/${clientId}/notifications`,
                         {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
