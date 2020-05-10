@@ -9,7 +9,11 @@ const MongoUtils = () => {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });
-    client.connect();
+
+    exports.connect = async () => {
+        let response = await client.connect();
+        return response;
+    };
 
     exports.getActiveProcessesByType = async (type) => {
         try {
@@ -32,7 +36,7 @@ const MongoUtils = () => {
         try {
             const db = client.db(dbName);
             const processesCollection = db.collection('procesos');
-            response = await processesCollection.insertOne({
+            let response = await processesCollection.insertOne({
                 cliente: id,
                 activo: true,
                 tipo: type,
@@ -40,7 +44,6 @@ const MongoUtils = () => {
                 exitosos: 0,
                 fallidos: 0,
             });
-
             return response.ops[0];
         } catch (err) {
             throw {
@@ -54,7 +57,7 @@ const MongoUtils = () => {
         try {
             const db = client.db(dbName);
             const processesCollection = db.collection('procesos');
-            response = await processesCollection.updateOne(
+            let response = await processesCollection.updateOne(
                 { activo: true, tipo: process.tipo },
                 {
                     $set: {
@@ -90,6 +93,10 @@ const MongoUtils = () => {
                 msg: `Error en la base de datos: ${err}`,
             };
         }
+    };
+
+    exports.closeConection = async () => {
+        client.close();
     };
 
     return exports;
