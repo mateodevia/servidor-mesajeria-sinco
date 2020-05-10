@@ -1,0 +1,30 @@
+.loginContainer {
+    width: 60%;
+    height: 100%;
+    text-align: center;
+    margin: 0 20%;
+    margin-top: 50vh;
+    transform: translateY(-50%);
+}
+
+.loginContainer h2 {
+}
+
+.loginContainer input {
+    border: none;
+    background-color: #b9b9b9;
+    border-radius: 10px;
+    font-size: 18px;
+    padding: 10px;
+    width: calc(100% - 20px);
+}
+
+.loginContainer button {
+    color: white;
+    background-color: #0c4270;
+    border: none;
+    font-size: 18px;
+    padding: 10px;
+    margin: 10px 0;
+    width: 100%;
+}

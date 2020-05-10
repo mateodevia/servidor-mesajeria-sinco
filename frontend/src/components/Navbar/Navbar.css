@@ -1,0 +1,30 @@
+.headerContainer {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    background-color: black;
+}
+
+.logo {
+    height: 60px;
+    margin: 10px;
+    margin-right: auto;
+}
+
+.title {
+    color: white;
+    height: 20px;
+    font-size: 18px;
+    padding: 40px 10px 20px 10px;
+    cursor: pointer;
+}
+
+.selected {
+    text-decoration: underline;
+}
+
+.title:hover {
+    background-color: #0c4270;
+}

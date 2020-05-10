@@ -1,8 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import socketIOClient from 'socket.io-client';
 import './App.css';
+import { Switch, Route, withRouter } from 'react-router-dom';
+import Navbar from './components/Navbar/Navbar';
+import Login from './components/Login/Login';
 
-function App() {
+function App(props) {
+    let [clientId, setClientId] = useState('1018505033');
+
     let socket = socketIOClient(
         'https://prueba-sinco-componente-a.herokuapp.com/'
     );
@@ -20,9 +25,41 @@ function App() {
 
     return (
         <div>
-            <h1>Sistema de Procesos Sincosoft</h1>
+            <Switch>
+                <Route
+                    exact
+                    path='/'
+                    render={() => {
+                        return <Login />;
+                    }}
+                />
+                <Route
+                    exact
+                    path='/misprocesos'
+                    render={() => {
+                        return (
+                            <React.Fragment>
+                                <Navbar selected={'misProcesos'} />
+                                <div className='testApp'>Mis Procesos</div>
+                            </React.Fragment>
+                        );
+                    }}
+                />
+                <Route
+                    exact
+                    path='/crearproceso'
+                    render={() => {
+                        return (
+                            <React.Fragment>
+                                <Navbar selected={'crearProceso'} />
+                                <div className='testApp'>Crear Proceso</div>
+                            </React.Fragment>
+                        );
+                    }}
+                />
+            </Switch>
         </div>
     );
 }
 
-export default App;
+export default withRouter(App);
