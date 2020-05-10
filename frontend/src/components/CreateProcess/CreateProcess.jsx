@@ -16,7 +16,7 @@ function CreateProcess(props) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     type: typeRef.current.value,
-                    quantity: quantityRef.current.value,
+                    quantity: parseInt(quantityRef.current.value),
                 }),
             }).then((response) => {
                 response.json().then((data) => {
