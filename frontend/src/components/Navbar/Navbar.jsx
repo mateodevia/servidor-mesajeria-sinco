@@ -11,7 +11,11 @@ function Navbar(props) {
     }, []);
     return (
         <div className='headerContainer'>
-            <img className='logo' src={Logo} />
+            <img
+                className='logo'
+                src={Logo}
+                onClick={() => props.history.push('/')}
+            />
             <div
                 className={
                     props.selected === 'misProcesos'
