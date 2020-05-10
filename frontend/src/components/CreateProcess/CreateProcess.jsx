@@ -1,8 +1,8 @@
 import React from 'react';
-import '../CrearProceso/CrearProceso.css';
+import './CreateProcess.css';
 import { withRouter } from 'react-router-dom';
 
-function CrearProceso(props) {
+function CreateProcess(props) {
     return (
         <React.Fragment>
             <h1>Crear Proceso</h1>
@@ -10,4 +10,4 @@ function CrearProceso(props) {
     );
 }
 
-export default withRouter(CrearProceso);
+export default withRouter(CreateProcess);

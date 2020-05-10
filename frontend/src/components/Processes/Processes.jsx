@@ -1,8 +1,8 @@
 import React from 'react';
-import '../Procesos/Procesos.css';
+import '../Processes/Processes.css';
 import { withRouter } from 'react-router-dom';
 
-function Procesos(props) {
+function Processes(props) {
     return (
         <React.Fragment>
             <h1>Mis Procesos</h1>
@@ -10,4 +10,4 @@ function Procesos(props) {
     );
 }
 
-export default withRouter(Procesos);
+export default withRouter(Processes);

@@ -4,7 +4,8 @@ import './App.css';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import Login from './components/Login/Login';
-import Procesos from './components/Procesos/Procesos';
+import Processes from './components/Processes/Processes';
+import CreateProcess from './components/CreateProcess/CreateProcess';
 
 function App(props) {
     let [clientId, setClientId] = useState('1018505033');
@@ -40,7 +41,7 @@ function App(props) {
                         return (
                             <React.Fragment>
                                 <Navbar selected={'misProcesos'} />
-                                <Procesos />
+                                <Processes />
                             </React.Fragment>
                         );
                     }}
@@ -51,7 +52,7 @@ function App(props) {
                         return (
                             <React.Fragment>
                                 <Navbar selected={'crearProceso'} />
-                                <div className='testApp'>Crear Proceso</div>
+                                <CreateProcess />
                             </React.Fragment>
                         );
                     }}

@@ -41,8 +41,4 @@ router.post('/client/:clientId/notification', (req, res) => {
     }
 });
 
-router.get('/prueba', (req, res) => {
-    res.send('HOla');
-});
-
 module.exports = router;
