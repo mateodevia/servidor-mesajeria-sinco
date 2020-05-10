@@ -3,7 +3,9 @@ import socketIOClient from 'socket.io-client';
 import './App.css';
 
 function App() {
-    let socket = socketIOClient('http://localhost:3001/');
+    let socket = socketIOClient(
+        'https://prueba-sinco-componente-a.herokuapp.com/'
+    );
 
     useEffect(() => {
         socket.on('connect', () => {
