@@ -13,9 +13,7 @@ function Processes(props) {
         return percentage + '%';
     };
 
-    let socket = socketIOClient(
-        'https://prueba-sinco-componente-a.herokuapp.com/'
-    );
+    let socket = socketIOClient('/');
 
     useEffect(() => {
         fetch(`/clients/${window.sessionStorage.username}/processes`).then(

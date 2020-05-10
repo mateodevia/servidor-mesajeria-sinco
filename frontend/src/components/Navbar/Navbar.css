@@ -29,3 +29,24 @@
 .title:hover {
     background-color: #0c4270;
 }
+
+@media only screen and (max-width: 500px) {
+    .headerContainer {
+        display: block;
+    }
+
+    .logo {
+        height: 40px;
+        margin: 10px;
+        margin-right: auto;
+        cursor: pointer;
+    }
+
+    .title {
+        color: white;
+        height: 20px;
+        font-size: 18px;
+        padding: 10px;
+        cursor: pointer;
+    }
+}

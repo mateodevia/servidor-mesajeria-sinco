@@ -37,3 +37,9 @@
 .createProcessContainer button:disabled {
     background-color: lightgray;
 }
+
+@media only screen and (max-width: 500px) {
+    .createProcessContainer h1 {
+        font-size: 20px;
+    }
+}
