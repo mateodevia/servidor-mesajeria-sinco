@@ -21,15 +21,11 @@ router.post('/client/:clientId/process', (req, res) => {
     }
 });
 
-//This is a webhook
+//Este es un webhook
 router.post('/client/:clientId/notification', (req, res) => {
-    console.log(req.body);
-
     if (!req.body.type) {
-        console.log('F');
         res.status(400).json({ error: 'EL parametro type hace falta' });
     } else if (!req.body.result) {
-        console.log('FF');
         res.status(400).json({ error: 'EL parametro result hace falta' });
     } else {
         processController.handleSubProcessCompletion(

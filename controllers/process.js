@@ -43,10 +43,9 @@ module.exports.handleSubProcessCompletion = async (
     reject
 ) => {
     try {
-        //notifica al cliente si esta conectado
-
         // Consulta el proceso en la base de datos
         let proceso = (await mongoUtils.getActiveProcessesByType(type))[0];
+
         if (proceso) {
             if (result === 'Exito') {
                 proceso.exitosos += 1;
@@ -56,9 +55,12 @@ module.exports.handleSubProcessCompletion = async (
             if (proceso.exitosos + proceso.fallidos === proceso.cantidad) {
                 proceso.activo = false;
             }
-            mongoUtils.updateProcess(proceso);
+
+            //notifica al cliente si esta conectado
+            socketIoUtils.sendUpdateToClient(clientId, proceso);
             //Persiste la información en la base de datos
-            resolve('buena');
+            mongoUtils.updateProcess(proceso);
+            resolve('OK');
         } else {
             reject({
                 type: 400,

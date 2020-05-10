@@ -59,8 +59,6 @@ amqp.connect(process.env.CLOUDAMQP_URL || 'amqp://localhost', function (
                     ).then((response) => {
                         response.json().then((data) => {
                             //Si el el webhook contesta bien, envía la confirmacion al servidor de mensajería
-                            console.log('va a mandar confirmacion', data);
-
                             if (data.msg) {
                                 channel.ack(msg);
                             }
