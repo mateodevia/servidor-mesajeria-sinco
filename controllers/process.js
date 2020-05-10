@@ -1,5 +1,4 @@
 const rabbit = require('../utils/rabbitUtils');
-const mongoUtils = require('../utils/mongoUtils');
 
 module.exports.createProcess = async (id, type, quantity, resolve, reject) => {
     try {
