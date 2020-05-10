@@ -1,0 +1,39 @@
+.createProcessContainer {
+    width: 60%;
+    margin: 0 20%;
+    text-align: center;
+}
+
+.createProcessContainer input {
+    border: none;
+    background-color: #b9b9b9;
+    border-radius: 10px;
+    font-size: 18px;
+    padding: 10px;
+    margin: 10px 0;
+    width: calc(100% - 20px);
+}
+
+.createProcessContainer input:disabled {
+    background-color: lightgray;
+}
+
+.createProcessContainer button {
+    color: white;
+    background-color: #0c4270;
+    border: none;
+    font-size: 18px;
+    padding: 10px;
+    margin: 10px 0;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.createProcessContainer button:hover {
+    transform: scale(1.02);
+}
+
+.createProcessContainer button:disabled {
+    background-color: lightgray;
+}

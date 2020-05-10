@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import socketIOClient from 'socket.io-client';
 import './App.css';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
@@ -8,23 +7,6 @@ import Processes from './components/Processes/Processes';
 import CreateProcess from './components/CreateProcess/CreateProcess';
 
 function App(props) {
-    let [clientId, setClientId] = useState('1018505033');
-
-    let socket = socketIOClient(
-        'https://prueba-sinco-componente-a.herokuapp.com/'
-    );
-
-    useEffect(() => {
-        socket.on('connect', () => {
-            console.log('Main socket opnened');
-            // Envia mensaje con identificacion para que el servidor le cree una room
-            socket.emit('suscribeTo', '1018505033');
-        });
-        socket.on('update', (update) => {
-            console.log('update', update);
-        });
-    }, []);
-
     return (
         <div>
             <Switch>
