@@ -34,7 +34,6 @@ function App(props) {
                     }}
                 />
                 <Route
-                    exact
                     path='/misprocesos'
                     render={() => {
                         return (
@@ -46,7 +45,6 @@ function App(props) {
                     }}
                 />
                 <Route
-                    exact
                     path='/crearproceso'
                     render={() => {
                         return (
