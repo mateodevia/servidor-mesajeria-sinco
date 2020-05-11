@@ -6,8 +6,6 @@ const SocketIoUtils = (server) => {
 
     //cuando un agente se conecta crea un socket con el servidor
     io.sockets.on('connection', (socket) => {
-        console.log('New client connected');
-
         socket.on('suscribeTo', (clientId) => {
             //se crea una room para ese cliente y se suscribe el socket del agente a ese room
             socket.join(clientId);

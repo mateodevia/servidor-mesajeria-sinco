@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const processController = require('../controllers/process');
 
-/* GET home page. */
 router.post('/clients/:clientId/processes', (req, res) => {
     if (!req.body.type) {
         res.status(400).json({ error: 'EL parametro type hace falta' });
@@ -27,11 +26,14 @@ router.post('/clients/:clientId/notifications', (req, res) => {
         res.status(400).json({ error: 'EL parametro type hace falta' });
     } else if (!req.body.result) {
         res.status(400).json({ error: 'EL parametro result hace falta' });
+    } else if (req.body.subProcess === undefined) {
+        res.status(400).json({ error: 'EL parametro subProcess hace falta' });
     } else {
         processController.handleSubProcessCompletion(
             req.params.clientId,
             req.body.type,
             req.body.result,
+            req.body.subProcess,
             (response) => res.send({ msg: response }),
             (err) => {
                 console.log(err);

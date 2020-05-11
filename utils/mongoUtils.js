@@ -19,11 +19,28 @@ const MongoUtils = () => {
         try {
             const db = client.db(dbName);
             const processesCollection = db.collection('procesos');
-            let result = await processesCollection.find({
-                tipo: type,
-                activo: true,
-            });
-            return result.toArray();
+            let result = await processesCollection
+                .find({
+                    tipo: type,
+                    activo: true,
+                })
+                .toArray();
+
+            if (result.length > 0) {
+                for (let i in result) {
+                    let p = result[i];
+                    let finished = true;
+                    for (let j = 0; j < p.cantidad; j++) {
+                        if (p[j] === false) {
+                            finished = false;
+                        }
+                    }
+                    if (finished !== false) {
+                        result.splice(i, 1);
+                    }
+                }
+            }
+            return result;
         } catch (err) {
             throw {
                 type: 500,
@@ -36,14 +53,17 @@ const MongoUtils = () => {
         try {
             const db = client.db(dbName);
             const processesCollection = db.collection('procesos');
-            let response = await processesCollection.insertOne({
+            let newProcess = {
                 cliente: id,
                 activo: true,
                 tipo: type,
                 cantidad: quantity,
-                exitosos: 0,
-                fallidos: 0,
-            });
+            };
+            for (let i = 0; i < quantity; i++) {
+                newProcess[i] = false;
+            }
+            let response = await processesCollection.insertOne(newProcess);
+
             return response.ops[0];
         } catch (err) {
             throw {
@@ -53,7 +73,7 @@ const MongoUtils = () => {
         }
     };
 
-    exports.updateProcess = async (process) => {
+    exports.updateProcess = async (process, subProcesss) => {
         try {
             const db = client.db(dbName);
             const processesCollection = db.collection('procesos');
@@ -62,8 +82,8 @@ const MongoUtils = () => {
                 {
                     $set: {
                         activo: process.activo,
-                        exitosos: process.exitosos,
-                        fallidos: process.fallidos,
+                        subProcesos: process.subProcesos,
+                        [`${subProcesss}`]: process[subProcesss],
                     },
                 }
             );
@@ -82,11 +102,27 @@ const MongoUtils = () => {
         try {
             const db = client.db(dbName);
             const processesCollection = db.collection('procesos');
-            let result = await processesCollection.find({
-                cliente: clientId,
-                activo: true,
-            });
-            return result.toArray();
+            let result = await processesCollection
+                .find({
+                    cliente: clientId,
+                    activo: true,
+                })
+                .toArray();
+            if (result.length > 0) {
+                for (let i in result) {
+                    let p = result[i];
+                    let finished = true;
+                    for (let j = 0; j < p.cantidad; j++) {
+                        if (p[j] === false) {
+                            finished = false;
+                        }
+                    }
+                    if (finished !== false) {
+                        result.splice(i, 1);
+                    }
+                }
+            }
+            return result;
         } catch (err) {
             throw {
                 type: 500,

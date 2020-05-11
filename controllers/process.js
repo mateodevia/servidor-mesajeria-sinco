@@ -1,28 +1,44 @@
 const rabbit = require('../utils/rabbitUtils');
 
-module.exports.createProcess = async (id, type, quantity, resolve, reject) => {
+let cachedProcesses = {};
+
+module.exports.createProcess = async (
+    id,
+    type,
+    quantity,
+    resolve,
+    reject,
+    mongoInjection
+) => {
     try {
         //Busca en la base de datos si ya existe un proceso de ese tipo
-        let procesosActivos = await mongoUtils.getActiveProcessesByType(type);
+        let procesosActivos = await (
+            mongoInjection || mongoUtils
+        ).getActiveProcessesByType(type);
 
         // Revisa si ya existen procesos
         if (procesosActivos.length === 0) {
             //guarda en la base de datos el nuevo pedido
-            mongoUtils.createProcess(id, type, quantity);
+            (mongoInjection || mongoUtils).createProcess(id, type, quantity);
 
             // manda el proceso a rabbit
-            rabbit.sendProcess(
-                id,
-                type,
-                quantity,
-                () => resolve('El proceso se creo correctamente'),
-                (err) => {
-                    reject({
-                        type: 500,
-                        msg: `Error en la comunicacion con el servidor de mensajería: ${err}`,
-                    });
-                }
-            );
+            // El if es para que los tests no llenen el servidor de mensajeria
+            if (!mongoInjection) {
+                rabbit.sendProcess(
+                    id,
+                    type,
+                    quantity,
+                    () => resolve('El proceso se creo correctamente'),
+                    (err) => {
+                        reject({
+                            type: 500,
+                            msg: `Error en la comunicacion con el servidor de mensajería: ${err}`,
+                        });
+                    }
+                );
+            } else {
+                resolve('El proceso se creo correctamente');
+            }
         } else {
             reject({
                 type: 400,
@@ -38,27 +54,35 @@ module.exports.handleSubProcessCompletion = async (
     clientId,
     type,
     result,
+    subProcess,
     resolve,
     reject
 ) => {
     try {
         // Consulta el proceso en la base de datos
         let proceso = (await mongoUtils.getActiveProcessesByType(type))[0];
-
+        //Guarda las cosas en el cache
+        cachedProcesses[type] = proceso;
+        cachedProcesses[type][subProcess] = result;
         if (proceso) {
-            if (result === 'Exito') {
-                proceso.exitosos += 1;
-            } else {
-                proceso.fallidos += 1;
-            }
-            if (proceso.exitosos + proceso.fallidos === proceso.cantidad) {
-                proceso.activo = false;
-            }
-
             //notifica al cliente si esta conectado
-            socketIoUtils.sendUpdateToClient(clientId, proceso);
+            socketIoUtils.sendUpdateToClient(clientId, {
+                type: type,
+                result: result,
+                subProcess: subProcess,
+            });
+            proceso[subProcess] = result;
+
+            let acabo = true;
+
+            //Revisa el cache para ver si ya acabó
+            for (let i = 0; i < cachedProcesses[type].cantidad; i++) {
+                acabo = acabo && cachedProcesses[type][i] !== false;
+            }
+            cachedProcesses[type].activo = !acabo;
+            proceso.activo = !acabo;
             //Persiste la información en la base de datos
-            mongoUtils.updateProcess(proceso);
+            mongoUtils.updateProcess(proceso, subProcess);
             resolve('OK');
         } else {
             reject({
@@ -71,12 +95,17 @@ module.exports.handleSubProcessCompletion = async (
     }
 };
 
-module.exports.getActiveProcesses = async (clientId, resolve, reject) => {
+module.exports.getActiveProcesses = async (
+    clientId,
+    resolve,
+    reject,
+    mongoInjection
+) => {
     try {
         //Busca en la base de datos si ya existe un proceso de ese tipo
-        let procesosActivos = await mongoUtils.getActiveProcessesByClient(
-            clientId
-        );
+        let procesosActivos = await (
+            mongoInjection || mongoUtils
+        ).getActiveProcessesByClient(clientId);
         resolve(procesosActivos);
     } catch (err) {
         reject(err);

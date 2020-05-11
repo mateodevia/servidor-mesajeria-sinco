@@ -8,9 +8,34 @@ function Processes(props) {
     let [updatedProcess, setUpdatedProcess] = useState(undefined);
 
     let calculatePercentage = (process) => {
-        let completed = process.exitosos + process.fallidos;
+        let completed = 0;
+        for (let i in process.subProcesos) {
+            if (process.subProcesos[i]) {
+                completed += 1;
+            }
+        }
         let percentage = (completed * 100) / process.cantidad;
         return percentage + '%';
+    };
+
+    let calculateExitosos = (process) => {
+        let exitos = 0;
+        for (let i in process.subProcesos) {
+            if (process.subProcesos[i] === 'Exito') {
+                exitos += 1;
+            }
+        }
+        return exitos;
+    };
+
+    let calculateFallidos = (process) => {
+        let fallas = 0;
+        for (let i in process.subProcesos) {
+            if (process.subProcesos[i] === 'Falla') {
+                fallas += 1;
+            }
+        }
+        return fallas;
     };
 
     let socket = socketIOClient('/');
@@ -36,14 +61,30 @@ function Processes(props) {
 
     useEffect(() => {
         if (processes) {
+            console.log(updatedProcess);
+
+            let p = updatedProcess.process;
+            let result = updatedProcess.result;
+            let subProcess = updatedProcess.subProcess;
             let newProcesses = [...processes];
+            let processTobeUpdated = undefined;
+            let processFinished = true;
             for (let i in newProcesses) {
-                if (newProcesses[i].tipo === updatedProcess.tipo) {
-                    newProcesses[i] = updatedProcess;
+                if (newProcesses[i].tipo === process.tipo) {
+                    processTobeUpdated = i;
+                    newProcesses[i][parseInt(subProcess)] = result;
                 }
             }
-            console.log(updatedProcess);
-            console.log(newProcesses);
+
+            for (let i = 0; i < process.cantidad; i++) {
+                if (newProcesses[processTobeUpdated][i] === false) {
+                    processFinished = false;
+                }
+            }
+
+            if (processFinished) {
+                newProcesses.splice(processTobeUpdated, 1);
+            }
             setProcesses(newProcesses);
         }
     }, [updatedProcess]);
@@ -59,11 +100,11 @@ function Processes(props) {
                     <div className='processFlex'>
                         <div className='statisticContainer'>
                             <div className='greenCircle'></div>
-                            <h5>Exitosos: {process.exitosos}</h5>
+                            <h5>Exitosos: {calculateExitosos(process)}</h5>
                         </div>
                         <div className='statisticContainer'>
                             <div className='redCircle'></div>
-                            <h5>Fallidos: {process.fallidos}</h5>
+                            <h5>Fallidos: {calculateFallidos(process)}</h5>
                         </div>
                     </div>
                     <div className='progressBar'>
