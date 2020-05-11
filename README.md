@@ -11,6 +11,7 @@ Clonear el Repositorio
 ### `git clone https://github.com/mateodevia/servidor-mesajeria-sinco.git`
 
 Instalar dependencias
+
 En la carpeta raíz del proyecto ejecutar
 ### `npm install`
 
@@ -40,6 +41,7 @@ Clonear el Repositorio
 ### `git clone https://github.com/mateodevia/servidor-mesajeria-sinco.git`
 
 Instalar dependencias
+
 En la carpeta raíz del proyecto ejecutar
 ### `npm install`
 
@@ -77,6 +79,7 @@ Agregar a las variables de entorno del sistema las credenciales de la base de da
 ### `SINCO_MONGO_URL='credenciales'`
 
 Instalar dependencias
+
 En la carpeta raíz del proyecto ejecutar
 ### `npm install`
 
