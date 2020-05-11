@@ -27,6 +27,7 @@ amqp.connect(process.env.CLOUDAMQP_URL || 'amqp://localhost', function (
                 let partes = msg.content.toString().split('/');
                 let clientId = partes[0];
                 let type = partes[1];
+                let subProcess = partes[2];
 
                 console.log(
                     `Se recibió un proceso de tipo ${type} del cliente ${clientId}`
@@ -54,6 +55,7 @@ amqp.connect(process.env.CLOUDAMQP_URL || 'amqp://localhost', function (
                             body: JSON.stringify({
                                 type: type,
                                 result: response,
+                                subProcess: subProcess,
                             }),
                         }
                     ).then((response) => {

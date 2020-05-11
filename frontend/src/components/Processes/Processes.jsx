@@ -9,8 +9,8 @@ function Processes(props) {
 
     let calculatePercentage = (process) => {
         let completed = 0;
-        for (let i in process.subProcesos) {
-            if (process.subProcesos[i]) {
+        for (let i = 0; i < process.cantidad; i++) {
+            if (process[i]) {
                 completed += 1;
             }
         }
@@ -20,8 +20,8 @@ function Processes(props) {
 
     let calculateExitosos = (process) => {
         let exitos = 0;
-        for (let i in process.subProcesos) {
-            if (process.subProcesos[i] === 'Exito') {
+        for (let i = 0; i < process.cantidad; i++) {
+            if (process[i] === 'Exito') {
                 exitos += 1;
             }
         }
@@ -30,8 +30,8 @@ function Processes(props) {
 
     let calculateFallidos = (process) => {
         let fallas = 0;
-        for (let i in process.subProcesos) {
-            if (process.subProcesos[i] === 'Falla') {
+        for (let i = 0; i < process.cantidad; i++) {
+            if (process[i] === 'Falla') {
                 fallas += 1;
             }
         }
@@ -70,13 +70,13 @@ function Processes(props) {
             let processTobeUpdated = undefined;
             let processFinished = true;
             for (let i in newProcesses) {
-                if (newProcesses[i].tipo === process.tipo) {
+                if (newProcesses[i].tipo === p.tipo) {
                     processTobeUpdated = i;
                     newProcesses[i][parseInt(subProcess)] = result;
                 }
             }
 
-            for (let i = 0; i < process.cantidad; i++) {
+            for (let i = 0; i < p.cantidad; i++) {
                 if (newProcesses[processTobeUpdated][i] === false) {
                     processFinished = false;
                 }

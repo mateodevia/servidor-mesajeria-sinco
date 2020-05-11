@@ -1,4 +1,5 @@
 const MongoClient = require('mongodb').MongoClient;
+const ObjectID = require('mongodb').ObjectID;
 
 const MongoUtils = () => {
     exports = {};
@@ -27,6 +28,7 @@ const MongoUtils = () => {
                 .toArray();
 
             if (result.length > 0) {
+                let newResult = [];
                 for (let i in result) {
                     let p = result[i];
                     let finished = true;
@@ -35,10 +37,11 @@ const MongoUtils = () => {
                             finished = false;
                         }
                     }
-                    if (finished !== false) {
-                        result.splice(i, 1);
+                    if (finished === false) {
+                        newResult.push(p);
                     }
                 }
+                result = newResult;
             }
             return result;
         } catch (err) {
@@ -77,8 +80,9 @@ const MongoUtils = () => {
         try {
             const db = client.db(dbName);
             const processesCollection = db.collection('procesos');
+            let o_id = new ObjectID(process._id);
             let response = await processesCollection.updateOne(
-                { activo: true, tipo: process.tipo },
+                { _id: o_id },
                 {
                     $set: {
                         activo: process.activo,
@@ -90,7 +94,6 @@ const MongoUtils = () => {
 
             return 'OK';
         } catch (err) {
-            console.log(err);
             throw {
                 type: 500,
                 msg: `Error en la base de datos: ${err}`,
@@ -109,6 +112,7 @@ const MongoUtils = () => {
                 })
                 .toArray();
             if (result.length > 0) {
+                let newResult = [];
                 for (let i in result) {
                     let p = result[i];
                     let finished = true;
@@ -117,10 +121,11 @@ const MongoUtils = () => {
                             finished = false;
                         }
                     }
-                    if (finished !== false) {
-                        result.splice(i, 1);
+                    if (finished === false) {
+                        newResult.push(p);
                     }
                 }
+                result = newResult;
             }
             return result;
         } catch (err) {

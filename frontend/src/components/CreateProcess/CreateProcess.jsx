@@ -22,6 +22,7 @@ function CreateProcess(props) {
                 response.json().then((data) => {
                     if (data.error) {
                         alert(data.error);
+                        setEsperando(false);
                     } else {
                         alert(data.msg);
                         setEsperando(false);

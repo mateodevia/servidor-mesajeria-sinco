@@ -67,9 +67,9 @@ module.exports.handleSubProcessCompletion = async (
         if (proceso) {
             //notifica al cliente si esta conectado
             socketIoUtils.sendUpdateToClient(clientId, {
-                type: type,
                 result: result,
                 subProcess: subProcess,
+                process: proceso,
             });
             proceso[subProcess] = result;
 
