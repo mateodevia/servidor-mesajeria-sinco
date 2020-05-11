@@ -10,6 +10,10 @@
 Clonear el Repositorio
 ### `git clone https://github.com/mateodevia/servidor-mesajeria-sinco.git`
 
+Instalar dependencias
+En la carpeta raíz del proyecto ejecutar
+### `npm install`
+
 Agregar a las variables de entorno del sistema las credenciales del servidor de mensajería
 
 ### `CLOUDAMQP_URL='credenciales'`
@@ -34,6 +38,10 @@ Monitorear el avance de los procesos en tiempo real
 
 Clonear el Repositorio
 ### `git clone https://github.com/mateodevia/servidor-mesajeria-sinco.git`
+
+Instalar dependencias
+En la carpeta raíz del proyecto ejecutar
+### `npm install`
 
 Agregar a las variables de entorno del sistema las credenciales de la base de datos
 
@@ -62,3 +70,15 @@ Crear un proceso
 Monitorear el avance de los procesos en tiempo real
 ![](https://res.cloudinary.com/drfggfn8f/image/upload/v1589179625/jyqqtghazg4oe3t4wal6.png)
 
+## Instrucciones para ejecutar pruebas unitarias
+
+Agregar a las variables de entorno del sistema las credenciales de la base de datos
+
+### `SINCO_MONGO_URL='credenciales'`
+
+Instalar dependencias
+En la carpeta raíz del proyecto ejecutar
+### `npm install`
+
+En la carpeta raíz del proyecto ejecutar
+### `npm test`
