@@ -8,7 +8,7 @@
 ## Instrucciones para la ejecucion (Remota)
 
 Clonear el Repositorio
-### `git clone`
+### `git clone https://github.com/mateodevia/servidor-mesajeria-sinco.git`
 
 Agregar a las variables de entorno del sistema las credenciales del servidor de mensajería
 
@@ -24,15 +24,16 @@ Ingresar a la página web
 ### `https://prueba-sinco-componente-a.herokuapp.com`
 
 Ingresar un nombre de usuario
-
+![](https://res.cloudinary.com/drfggfn8f/image/upload/v1589179625/krzpy8lsb6epm90vysva.png)
 Crear un proceso
-
+![](https://res.cloudinary.com/drfggfn8f/image/upload/v1589179625/wsmyudvg3a98vps0oqck.png)
 Monitorear el avance de los procesos en tiempo real
+![](https://res.cloudinary.com/drfggfn8f/image/upload/v1589179625/jyqqtghazg4oe3t4wal6.png)
 
 ## Instrucciones para la ejecucion (on premise)
 
 Clonear el Repositorio
-### `git clone`
+### `git clone https://github.com/mateodevia/servidor-mesajeria-sinco.git`
 
 Agregar a las variables de entorno del sistema las credenciales de la base de datos
 
@@ -55,8 +56,9 @@ Ingresar a la página web
 ### `http://localhost:3001`
 
 Ingresar un nombre de usuario
-
+![](https://res.cloudinary.com/drfggfn8f/image/upload/v1589179625/krzpy8lsb6epm90vysva.png)
 Crear un proceso
-
+![](https://res.cloudinary.com/drfggfn8f/image/upload/v1589179625/wsmyudvg3a98vps0oqck.png)
 Monitorear el avance de los procesos en tiempo real
+![](https://res.cloudinary.com/drfggfn8f/image/upload/v1589179625/jyqqtghazg4oe3t4wal6.png)
 
