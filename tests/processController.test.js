@@ -18,14 +18,7 @@ describe('Process Controller', () => {
             );
         let result = await promise();
         expect(result).toStrictEqual('El proceso se creo correctamente');
-        mongoUtils.updateProcess({
-            cliente: 'testsUser1',
-            activo: false,
-            tipo: 'testController1',
-            cantidad: 1,
-            exitosos: 1,
-            fallidos: 0,
-        });
+        mongoUtils.emptyCollection();
         console.log('result', result);
     });
 
@@ -55,14 +48,7 @@ describe('Process Controller', () => {
             );
         let result = await promise2();
         expect(result.length).toStrictEqual(1);
-        mongoUtils.updateProcess({
-            cliente: 'testsUser2',
-            activo: false,
-            tipo: 'testController2',
-            cantidad: 1,
-            exitosos: 1,
-            fallidos: 0,
-        });
+        mongoUtils.emptyCollection();
         console.log('result', result);
     });
 });

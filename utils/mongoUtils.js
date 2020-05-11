@@ -136,6 +136,19 @@ const MongoUtils = () => {
         }
     };
 
+    exports.emptyCollection = async () => {
+        try {
+            const db = client.db(dbName);
+            const processesCollection = db.collection('procesos');
+            processesCollection.remove({});
+        } catch (err) {
+            throw {
+                type: 500,
+                msg: `Error en la base de datos: ${err}`,
+            };
+        }
+    };
+
     exports.closeConection = async () => {
         client.close();
     };
