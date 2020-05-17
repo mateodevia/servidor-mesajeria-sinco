@@ -8,7 +8,7 @@ function Processes(props) {
     let [processes, setProcesses] = useState(undefined);
     let [updatedProcess, setUpdatedProcess] = useState(undefined);
 
-    let socket = socketIOClient('http://localhost:3001/');
+    let socket = socketIOClient('/');
 
     useEffect(() => {
         fetch(`/clients/${window.sessionStorage.username}/processes`).then(
