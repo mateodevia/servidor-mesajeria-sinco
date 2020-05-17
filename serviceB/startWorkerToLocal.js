@@ -137,8 +137,6 @@ amqp.connect(process.env.CLOUDAMQP_URL || 'amqp://localhost', function (
                 }, 5000);
             },
             {
-                // manual acknowledgment mode,
-                // see https://www.rabbitmq.com/confirms.html for details
                 noAck: false,
             }
         );
