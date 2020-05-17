@@ -34,6 +34,7 @@ router.post('/clients/:clientId/notifications', (req, res) => {
             req.body.type,
             req.body.result,
             req.body.subProcess,
+            req.body.description,
             (response) => res.send({ msg: response }),
             (err) => {
                 console.log(err);

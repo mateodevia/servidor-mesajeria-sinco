@@ -55,6 +55,7 @@ module.exports.handleSubProcessCompletion = async (
     type,
     result,
     subProcess,
+    description,
     resolve,
     reject
 ) => {
@@ -70,17 +71,10 @@ module.exports.handleSubProcessCompletion = async (
                 result: result,
                 subProcess: subProcess,
                 process: proceso,
+                description: description,
             });
-            proceso[subProcess] = result;
+            proceso[subProcess] = { result: result, description: description };
 
-            let acabo = true;
-
-            //Revisa el cache para ver si ya acabó
-            for (let i = 0; i < cachedProcesses[type].cantidad; i++) {
-                acabo = acabo && cachedProcesses[type][i] !== false;
-            }
-            cachedProcesses[type].activo = !acabo;
-            proceso.activo = !acabo;
             //Persiste la información en la base de datos
             mongoUtils.updateProcess(proceso, subProcess);
             resolve('OK');

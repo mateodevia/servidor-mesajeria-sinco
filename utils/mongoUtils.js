@@ -83,8 +83,6 @@ const MongoUtils = () => {
                 { _id: o_id },
                 {
                     $set: {
-                        activo: process.activo,
-                        subProcesos: process.subProcesos,
                         [`${subProcesss}`]: process[subProcesss],
                     },
                 }
