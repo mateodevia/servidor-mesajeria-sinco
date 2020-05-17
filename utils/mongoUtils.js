@@ -23,7 +23,6 @@ const MongoUtils = () => {
             let result = await processesCollection
                 .find({
                     tipo: type,
-                    activo: true,
                 })
                 .toArray();
 
@@ -58,7 +57,6 @@ const MongoUtils = () => {
             const processesCollection = db.collection('procesos');
             let newProcess = {
                 cliente: id,
-                activo: true,
                 tipo: type,
                 cantidad: quantity,
             };
@@ -108,7 +106,6 @@ const MongoUtils = () => {
             let result = await processesCollection
                 .find({
                     cliente: clientId,
-                    activo: true,
                 })
                 .toArray();
             if (result.length > 0) {

@@ -13,7 +13,6 @@ describe('Mongo', () => {
         mongoUtils.closeConection();
         expect(result).toStrictEqual({
             cliente: 'testsUser',
-            activo: true,
             tipo: 'test',
             cantidad: 1,
             '0': false,
